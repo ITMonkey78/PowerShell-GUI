@@ -3,7 +3,7 @@
 #
 #   Script: Create-PowerShellGUI.ps1
 #
-#   Author: Neil McGill (ITMonkey78@gmail.com)
+#   Author: ITMonkey78 (ITMonkey78@gmail.com)
 #
 #  Created: 23/05/2017
 #
@@ -313,7 +313,9 @@ function RemoveEvent($event_name){
 	try {
 
 		if ($null -ne $event_name) {
-			if ($Global:CurrentCtrl.Tag -contains 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')') {$Global:CurrentCtrl.Tag = $Global:CurrentCtrl.Tag | where-Object { $_ -ne 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')' } }
+			if ($Global:CurrentCtrl.Tag -contains 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')') {
+				$Global:CurrentCtrl.Tag = $Global:CurrentCtrl.Tag | where-Object { $_ -ne 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')' }
+			}
 			ListEvents
 		}
 	}
