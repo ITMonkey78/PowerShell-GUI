@@ -238,9 +238,9 @@ function ListProperties {
 		$pname = $prop.Name
 		if ($Global:CurrentCtrl.Tag -contains $pname) {
 			$value = $Global:CurrentCtrl.$pname
-			if ($value.GetType().FullName -eq 'System.Drawing.Font') {
-				$value = $value.Name + ',' + $value.SizeInPoints + ',' + $value.Style
-			}
+		#	if ($value.GetType().FullName -eq 'System.Drawing.Font') {
+		#		$value = $value.Name + ',' + $value.SizeInPoints + ',' + $value.Style
+		#	}
 			$value = $value -replace 'Color \[(\w+)\]', '$1'
 			$dgvProps.Rows.Add($pname, $value)
 		}
@@ -313,9 +313,7 @@ function RemoveEvent($event_name){
 	try {
 
 		if ($null -ne $event_name) {
-			if ($Global:CurrentCtrl.Tag -contains 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')') {
-			    $Global:CurrentCtrl.Tag = $Global:CurrentCtrl.Tag | where-Object { $_ -ne 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')' }
-			}
+			if ($Global:CurrentCtrl.Tag -contains 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')') {$Global:CurrentCtrl.Tag = $Global:CurrentCtrl.Tag | where-Object { $_ -ne 'Add_' + $event_name + '($' + $Global:CurrentCtrl.Name + '_' + $event_name + ')' } }
 			ListEvents
 		}
 	}
@@ -583,7 +581,7 @@ function ShowMainWindow {
 	#btnExitForm
 	#
 	$btnExitForm = New-Object System.Windows.Forms.Button
-	$btnExitForm.Location = New-Object System.Drawing.Point(480, 12)
+	$btnExitForm.Location = New-Object System.Drawing.Point(518, 12)
 	$btnExitForm.Size = New-Object System.Drawing.Size(88, 23)
 	$btnExitForm.Text = "Exit"
 	$btnExitForm.Enabled = $true
@@ -666,7 +664,7 @@ function ShowMainWindow {
 	#lvControls
 	#
 	$dgvControls = New-Object System.Windows.Forms.DataGridView
-	$dgvControls.Location = New-Object System.Drawing.Point(6, 58)
+	$dgvControls.Location = New-Object System.Drawing.Point(6, 63)
 	$dgvControls.Size = New-Object System.Drawing.Size(248, 437)
 	$dgvControls.BackGroundColor = "White"
 	$null = $dgvControls.Columns.Add("", "Name")
@@ -702,12 +700,12 @@ function ShowMainWindow {
 	#
 	$cbAddProp = New-Object Windows.Forms.ComboBox
 	$cbAddProp.Location = New-Object System.Drawing.Point(6, 14)
-	$cbAddProp.Size = New-Object System.Drawing.Size(206, 21)
+	$cbAddProp.Size = New-Object System.Drawing.Size(189, 21)
 	#
 	#btnAddProp
 	#
 	$btnAddProp = New-Object System.Windows.Forms.Button
-	$btnAddProp.Location = New-Object System.Drawing.Point(226, 12)
+	$btnAddProp.Location = New-Object System.Drawing.Point(201, 13)
 	$btnAddProp.Size = New-Object System.Drawing.Size(58, 23)
 	$btnAddProp.Text = "Add"
 	$btnAddProp.Add_Click({AddProperty })
@@ -716,7 +714,7 @@ function ShowMainWindow {
 	#btnRemoveProp
 	#
 	$btnRemoveProp = New-Object System.Windows.Forms.Button
-	$btnRemoveProp.Location = New-Object System.Drawing.Point(226, 38)
+	$btnRemoveProp.Location = New-Object System.Drawing.Point(261, 13)
 	$btnRemoveProp.Size = New-Object System.Drawing.Size(58, 23)
 	$btnRemoveProp.Text = "Remove"
 	$btnRemoveProp.Add_Click({if ($dgvProps.Rows.Count -gt 0) { RemoveProperty $dgvProps.CurrentRow.Cells[0].value }})
@@ -727,19 +725,19 @@ function ShowMainWindow {
 	#
 	$lblTooltipProp = New-Object System.Windows.Forms.Label
 	$lblTooltipProp.Text = "Removing a property or event does not reset its value"
-	$lblTooltipProp.Location = New-Object System.Drawing.Point(6, 38)
-	$lblTooltipProp.Size = New-Object System.Drawing.Size(235, 30)
+	$lblTooltipProp.Location = New-Object System.Drawing.Point(6, 41)
+	$lblTooltipProp.Size = New-Object System.Drawing.Size(275, 16)
 	$lblTooltipProp.Enabled = $false
 	#
 	#dgvProps
 	#
 	$dgvProps = New-Object System.Windows.Forms.DataGridView
-	$dgvProps.Location = New-Object System.Drawing.Point(6, 68)
-	$dgvProps.Size = New-Object System.Drawing.Size(278, 278)
+	$dgvProps.Location = New-Object System.Drawing.Point(6, 63)
+	$dgvProps.Size = New-Object System.Drawing.Size(313, 278)
 	$dgvProps.BackGroundColor = "White"
 	$null = $dgvProps.Columns.Add("", "Property")
 	$null = $dgvProps.Columns.Add("", "Value")
-	$dgvProps.Columns[0].Width = 75
+	$dgvProps.Columns[0].Width = 109
 	$dgvProps.Columns[1].Width = 200
 	$dgvProps.Columns[0].ReadOnly = $true
 	$dgvProps.ColumnHeadersHeightSizeMode = [System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode]::DisableResizing
@@ -757,19 +755,19 @@ function ShowMainWindow {
 	$gbProps.Controls.Add($lblTooltipProp)
 	$gbProps.Controls.Add($dgvProps)
 	$gbProps.Location = New-Object System.Drawing.Point(278, 41)
-	$gbProps.Size = New-Object System.Drawing.Size(290, 353)
+	$gbProps.Size = New-Object System.Drawing.Size(328, 353)
 	$gbProps.Text = 'Properties:'
 	#--------------------------------------------------------
 	#cbAddEvent
 	#
 	$cbAddEvent = New-Object Windows.Forms.ComboBox
 	$cbAddEvent.Location = New-Object System.Drawing.Point(6, 14)
-	$cbAddEvent.Size = New-Object System.Drawing.Size(156, 21)
+	$cbAddEvent.Size = New-Object System.Drawing.Size(189, 21)
 	#
 	#btnAddEvent
 	#
 	$btnAddEvent = New-Object System.Windows.Forms.Button
-	$btnAddEvent.Location = New-Object System.Drawing.Point(166, 12)
+	$btnAddEvent.Location = New-Object System.Drawing.Point(201, 13)
 	$btnAddEvent.Size = New-Object System.Drawing.Size(58, 23)
 	$btnAddEvent.Text = "Add"
 	$btnAddEvent.Add_Click({AddEvent })
@@ -778,7 +776,7 @@ function ShowMainWindow {
 	#btnRemoveEvent
 	#
 	$btnRemoveEvent = New-Object System.Windows.Forms.Button
-	$btnRemoveEvent.Location = New-Object System.Drawing.Point(226, 12)
+	$btnRemoveEvent.Location = New-Object System.Drawing.Point(261, 13)
 	$btnRemoveEvent.Size = New-Object System.Drawing.Size(58, 23)
 	$btnRemoveEvent.Text = "Remove"
 	$btnRemoveEvent.Add_Click({if ($dgvEvent.Rows.Count -gt 0 ) { RemoveEvent $dgvEvent.CurrentRow.Cells[0].value }})
@@ -788,10 +786,10 @@ function ShowMainWindow {
 	#
 	$dgvEvent = New-Object System.Windows.Forms.DataGridView
 	$dgvEvent.Location = New-Object System.Drawing.Point(6, 45)
-	$dgvEvent.Size = New-Object System.Drawing.Size(278, 94)
+	$dgvEvent.Size = New-Object System.Drawing.Size(313, 94)
 	$dgvEvent.BackGroundColor = "White"
 	$null = $dgvEvent.Columns.Add("","Event")
-	$dgvEvent.Columns[0].Width = 274
+	$dgvEvent.Columns[0].Width = 309
 	$dgvEvent.Columns[0].ReadOnly = $false
 	$dgvEvent.ColumnHeadersVisible = $false
 	$dgvEvent.RowHeadersVisible = $false
@@ -807,14 +805,14 @@ function ShowMainWindow {
 	$gbEvent.Controls.Add($btnRemoveEvent)
 	$gbEvent.Controls.Add($dgvEvent)
 	$gbEvent.Location = New-Object System.Drawing.Point(278, 397)
-	$gbEvent.Size = New-Object System.Drawing.Size(290, 147)
+	$gbEvent.Size = New-Object System.Drawing.Size(328, 147)
 	$gbEvent.Text = 'Event Handlers:'
 
 	#--------------------------------------------------------
 	#frmPSFD
 	#
 	$frmPSFD = New-Object System.Windows.Forms.Form
-	$frmPSFD.ClientSize = New-Object System.Drawing.Size(579, 549)
+	$frmPSFD.ClientSize = New-Object System.Drawing.Size(617, 549)
 	$frmPSFD.FormBorderStyle = 'Fixed3D'
 	$frmPSFD.MaximizeBox = $false
 	$frmPSFD.BackgroundImageLayout = "None"
